@@ -25,7 +25,7 @@ let books = [];
 
 app.get("/", async (req, res) => {
   books = await getBooks();
-  console.log(JSON.stringify(books));
+  
   res.render("index.ejs",{
     books: books,
   });
