@@ -14,6 +14,10 @@ db.connect();
 
 const app = express();
 const port = 3000;
+//body parser Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+// access local resources
+app.use(express.static("public"));
 
 async function getBooks() {
   const result = await db.query(
