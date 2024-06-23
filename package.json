@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/ContardiC/book-notes/issues"
   },
-  "homepage": "https://github.com/ContardiC/book-notes#readme"
+  "homepage": "https://github.com/ContardiC/book-notes#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
 }
