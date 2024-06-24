@@ -1,0 +1,23 @@
+<%- include('partials/header.ejs'); %>
+<div class="container">
+  <h1>Inserisci un nuovo autore</h1>
+  <form action="/add-author" method="post">
+    <div class="mb-3 row">
+      <label for="inputFname" class="col-sm-2 col-form-label">Nome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputFname" name="fname" />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputLname" class="col-sm-2 col-form-label">Cognome</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputLname" name="lname" />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputBiography" class="col-sm-2 col-form-label">Biografia</label>
+      <textarea id="inputBiography" class="form-control" name="biography"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salva</button>
+  </form>
+</div>

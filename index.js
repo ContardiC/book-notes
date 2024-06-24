@@ -52,6 +52,22 @@ app.get("/book/:id", async (req, res) => {
     res.status(500).send("Errore nel recupero del libro.");
   }
 });
+app.get("/new-author", (req,res)=>{
+  res.render("new-author.ejs");
+});
+app.post("/add-author", async(req,res)=>{
+  const fname = req.body.fname;
+  const lname = req.body.lname;
+  const biography = req.body.biography;
+  try{
+    const result = await db.query("INSERT INTO authors(fname,lname,biography) VALUES ($1,$2,$3) RETURNING *;",[fname,lname,biography]);
+    const id = result.rows[0].id;
+    res.redirect("/");
+  }catch(err){
+    console.error(err);
+    res.status(500).send("Non e' possibile inserire questo autore. Probabilmente e' gia' presente");
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on  http://localhost:${port} port. `);
