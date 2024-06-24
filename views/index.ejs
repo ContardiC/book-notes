@@ -1,17 +1,22 @@
 <%- include('partials/header.ejs'); -%>
-<!-- get all reviewed books-->    
-<% for(let book of books){ %> 
-      
-        <div class="card" style="width: 18rem;">
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
-            <div class="card-body">
-              <h5 class="card-title">  <%= book.title %></h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-    <% } %>
+<!-- get all reviewed books-->
+<div class="container">
+ 
+  <% for(let book of books){ %>
+
+  <div class="card" style="width: 18rem">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+      <h5 class="card-title"><%= book.title %></h5>
+      <h6 class="card-subtitle mb-2 text-body-secondary"><%= book.fname%> <%= book.lname %></h6>
+      <p class="card-text">
+        <%= book.review_text %>
+      </p>
+      <a  href="/book/<%= book.id %>"  class="btn btn-primary" > Read the notes </a>
+    </div>
+    <div class="card-footer text-body-secondary">Rating: <%= book.rating %></div>
+  </div>
+  <% } %>
+</div>
+
 <%- include('partials/footer.ejs'); -%>
-
-
-
