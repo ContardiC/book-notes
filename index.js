@@ -28,7 +28,7 @@ async function getBooks() {
 
 async function getBook(id) {
   const result = await db.query(
-    "SELECT b.title, a.fname, a.lname, n.review_text, n.rating , n.note FROM books b JOIN notes n on b.id = $1 JOIN authors a ON b.id_author = a.id;",
+    "SELECT b.title, a.fname, a.lname, n.review_text, n.rating as rating , n.note FROM books b JOIN notes n on b.id = $1 JOIN authors a ON b.id_author = a.id;",
     [id]
   );
   return result.rows[0];
@@ -44,6 +44,7 @@ app.get("/", async (req, res) => {
 app.get("/book/:id", async (req, res) => {
   const id = req.params.id;
   const book = await getBook(id);
+  console.log(JSON.stringify(book));
   res.render("notes.ejs", { book: book });
 });
 
