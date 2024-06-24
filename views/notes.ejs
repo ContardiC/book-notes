@@ -4,8 +4,11 @@
   <p><%= book.review_text %></p>
   <h2>Notes</h2>
   <p><%= book.note %></p>
-
-  <%= parseInt(book.rating) %>
-  
+  <% for(let i=0;i<book.rating;i++){%>
+    <i class="bi bi-star-fill text-primary"></i>
+  <%}%>
+  <% for(let i=book.rating;i<10;i++){%>
+    <i class="bi bi-star text-secondary"></i>
+  <%}%>
 </div>
 <%- include('partials/footer.ejs'); %>
