@@ -68,6 +68,51 @@ app.post("/add-author", async(req,res)=>{
     res.status(500).send("Non e' possibile inserire questo autore. Probabilmente e' gia' presente");
   }
 });
+async function getAuthors(){
+  try{
+    const result = await db.query("SELECT * FROM authors ORDER BY lname ASC;");
+    return result.rows;
+  }catch(err){
+    console.error(err);
+    res.staus(500).send("Non e' stato possibile recuperare gli autori.");
+  }
+}
+
+async function getCategories(){
+  try{
+    const result = await db.query("SELECT * FROM categories ORDER BY name ASC ");
+    return result.rows;
+  }catch(err){
+    console.error(err);
+    res.staus(500).send("Non e' stato possibile recuperare le categorie.");
+  }
+}
+
+app.get("/new-book", async (req,res)=>{
+  let authors = await getAuthors();
+  let categories = await getCategories();
+  res.render("new-book.ejs", {authors: authors, categories: categories});
+});
+
+app.post("/add-book", async(req,res)=>{
+  const title = req.body.title;
+  const isbn = req.body.isbn;
+  const id_author = req.body.id_author;
+  const id_category = req.body.id_category;
+  const summary = req.body.summary;
+  const reading_date= req.body.reading_date;
+  console.log(id_author);
+  console.log(id_category);
+  console.log(reading_date);
+  try{
+    await db.query("INSERT INTO books(title,id_author,id_category,isbn,summary,reading_date) VALUES($1,$2,$3,$4,$5,$6);",[title,id_author,id_category,isbn,summary,reading_date]);
+    res.redirect("/");
+  }catch(err){
+    console.error(err);
+    res.status(500).send("Non e' stato possibile inserire il libro.");
+
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on  http://localhost:${port} port. `);

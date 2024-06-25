@@ -1,0 +1,45 @@
+<%- include('partials/header.ejs'); -%>
+<h1>Inserisci un nuovo libro</h1>
+<div class="container">
+<form action="/add-book" method="post">
+    <div class="mb-3 row">
+      <label for="inputTitle" class="col-sm-2 col-form-label">Titolo</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputTitle" name="title"placeholder="Titolo dell'opera" />
+      </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="inputISBN" class="col-sm-2 col-form-label">ISBN</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputISBN" name="isbn" placeholder="Inserire senza trattini"/>
+        </div>
+      </div>
+    <div class="mb-3">
+        <label for="inputAuthor" class="form-label">Autore</label>
+        <select id="inputAuthor" class="form-select" name="id_author">
+            <% for(let author of authors) {%>
+                <option  value=<%= author.id %>> <%= author.lname %> <%= author.fname %></option>
+            <%}%>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="inputCategory" class="form-label">Categoria</label>
+        <select id="inputCategory" class="form-select" name="id_category">
+            <% for(let category of categories) {%>
+                <option value=<%= category.id %>> <%= category.name %></option>
+            <%}%>
+        </select>
+    </div>
+    <div class="mb-e">
+        <label for="inputDate" class="form-label">Letto il :</label>
+        <input type="date" class="form-control" name="reading_date">
+    </div>
+    <div class="mb-3">
+      <label for="inputSummary" class="col-sm-2 col-form-label">Trama</label>
+      <textarea id="inputSummary" class="form-control" name="summary"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salva</button>
+  </form>
+</div>
+
+<%- include('partials/footer.ejs');-%>
