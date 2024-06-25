@@ -1,4 +1,11 @@
 <%- include('partials/header.ejs'); -%>
+<% if (typeof query.message !== 'undefined') { %>
+  <div class="alert alert-<%= query.type %>">
+      <%= query.message %>
+  </div>
+<% } %>
+
+
 <!-- get all reviewed books-->
 <section class="text-center container">
   <% for(let book of books){ %>

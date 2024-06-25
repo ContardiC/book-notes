@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import flash from "connect-flash";
 // DB data
 const db = new pg.Client({
   user: "postgres",
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // access local resources
 app.use(express.static("public"));
 
+
 async function getBooks() {
   const result = await db.query(
     "SELECT b.id, b.title, a.fname, a.lname, n.review_text, n.rating  FROM books b JOIN notes n ON b.id = n.id_book JOIN authors a ON b.id_author = a.id;"
@@ -35,10 +37,12 @@ async function getBook(id) {
 }
 
 app.get("/", async (req, res) => {
+ 
+
   let books = [];
   books = await getBooks();
   res.render("index.ejs", {
-    books: books,
+    books: books, query: req.query
   });
 });
 app.get("/book/:id", async (req, res) => {
@@ -62,10 +66,10 @@ app.post("/add-author", async(req,res)=>{
   try{
     const result = await db.query("INSERT INTO authors(fname,lname,biography) VALUES ($1,$2,$3) RETURNING *;",[fname,lname,biography]);
     const id = result.rows[0].id;
-    res.redirect("/");
+    res.redirect("/?message=L'autore è stato inserito con successo!&type=success");
   }catch(err){
     console.error(err);
-    res.status(500).send("Non e' possibile inserire questo autore. Probabilmente e' gia' presente");
+    res.redirect("/?message=Non e' stato possibile inserire l'autore.&type=error");
   }
 });
 async function getAuthors(){
@@ -106,10 +110,11 @@ app.post("/add-book", async(req,res)=>{
   console.log(reading_date);
   try{
     await db.query("INSERT INTO books(title,id_author,id_category,isbn,summary,reading_date) VALUES($1,$2,$3,$4,$5,$6);",[title,id_author,id_category,isbn,summary,reading_date]);
-    res.redirect("/");
+    res.redirect("/?message=Il libro è stato inserito con successo!&type=success");
+
   }catch(err){
     console.error(err);
-    res.status(500).send("Non e' stato possibile inserire il libro.");
+    res.redirect("/?message=Non e' stato possibile inserire il libro.&type=error");
 
   }
 });
