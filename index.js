@@ -2,6 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import flash from "connect-flash";
+
+//TODO: add  Open Library Covers API 
+// Axios request
+
+
 // DB data
 const db = new pg.Client({
   user: "postgres",
