@@ -3,7 +3,13 @@
   <h1><%=book.title %></h1>
   <p><%= book.review_text %></p>
   <h2>Notes</h2>
-  <p><%= book.note %></p>
+  
+    
+    <form action="/update-note" method="post">
+      <input type="hidden" name="id" value=<%= book.id %>>
+      <textarea class="form-control" name="note" ><%= book.note %></textarea>
+      <button type="submit"  class="btn btn-primary"><i class="bi bi-floppy"></i> Modifica</button>
+    </form>
   <% for(let i=0;i<book.rating;i++){%>
     <i class="bi bi-star-fill text-primary"></i>
   <%}%>
