@@ -92,6 +92,15 @@ async function getCategories(){
   }
 }
 
+async function getNewBooks(){
+  try{
+    const result = await db.query("SELECT * FROM books WHERE id NOT IN (SELECT id_book FROM notes);");
+    return result.rows;
+  }catch(err){
+    console.error(err);
+  }
+}
+
 app.get("/new-book", async (req,res)=>{
   let authors = await getAuthors();
   let categories = await getCategories();
@@ -118,6 +127,47 @@ app.post("/add-book", async(req,res)=>{
 
   }
 });
+
+app.post("/update-note", async (req,res)=>{
+  const id = req.body.id;
+  const note = req.body.note;
+  try{
+    await db.query("UPDATE notes SET note =$1 WHERE id_book = $2;",[note,id]);
+    res.redirect("/?message=La nota e' stata aggiornata con successo!&type=success");
+  }catch(err){
+    console.error(err);
+    res.redirect("/?message=Non e' stato possibile aggiornare la nota.&type=error");
+  }
+});
+app.get("/new-note",async(req,res)=>{
+  let books = [];
+  let categories = [];
+  let authors = [];
+  books = await getNewBooks();
+  authors = await getAuthors();
+  categories = await getCategories();
+  res.render("new-note.ejs", {books: books, authors: authors, categories: categories});
+});
+
+app.post("/add-note", async (req,res)=>{
+  const id_book = req.body.id_book;
+  const review_text = req.body.review_text;
+  const note = req.body.note;
+  const rating = req.body.rating;
+  //console.log(`id: ${id_book} reading_text: ${reading_text} note: ${note} rating: ${rating}`);
+  try{
+    await db.query("INSERT INTO notes(id_book, review_text, rating, note) VALUES($1,$2,$3,$4);",[id_book,review_text,rating,note]);
+    res.redirect("/?message=La nota e' stata aggiuntacon successo!&type=success");
+
+  }catch(err){
+    console.log(err);
+    res.redirect("/?message=Non e' stato possibile aggiungere la nota.&type=error");
+
+  }
+
+
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on  http://localhost:${port} port. `);

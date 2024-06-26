@@ -1,5 +1,29 @@
 <%- include('partials/header.ejs'); -%>
-
-
+<div class="container">
+    <h1>Nuova nota</h1>
+    <form action="/add-note" method="post">
+    <div class="mb-3">
+        <label for="inputBook" class="form-label">Scegli il Libro</label>
+        <select id="inputBook" class="form-select" name="id_book">
+            <% for(let book of books) {%>
+                <option  value=<%= book.id %>> <%= book.title%> </option>
+            <%}%>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="inputReviewText" class="col-sm-2 col-form-label">Trama</label>
+        <textarea id="inputReviewText" class="form-control" name="review_text"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="inputNote" class="col-sm-2 col-form-label">Note</label>
+        <textarea id="inputNote" class="form-control" name="note"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="ratingRange" class="form-label">Il tuo voto: 1 - 10</label>
+        <input type="range" class="form-range" min="0" max="10" step="1" id="ratingRange" name="rating">
+    </div>
+    <button type="submit" >Salva la nota</button>
+</form>
+</div>
 
 <%-  include('partials/footer.ejs'); -%>
